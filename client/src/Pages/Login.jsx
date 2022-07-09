@@ -7,13 +7,13 @@ const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     let height = window.innerHeight - 60
+
+    const [userData, setUserData] = useState({})
     const values = {
-        firstName,
-        lastName,
         email,
         password
     }
-    const loggingIn = () => {
+    const loggingIn = async () => {
         try {
             const { data } = await axios.post('http://localhost:5000/login', values)
             setUserData(data)
