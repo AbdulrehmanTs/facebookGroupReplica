@@ -11,7 +11,7 @@ const Discussion = ({ user }) => {
   const [discussions, setDiscussions] = useState()
   const fetchDiscussions = async () => {
     try {
-      const { data } = await axios.get('http://localhost:5000/discussions')
+      const { data } = await axios.get('https://facebook-group-replica.herokuapp.com/discussions')
       setDiscussions(data)
     } catch (error) {
       console.log(error)
@@ -28,7 +28,7 @@ const Discussion = ({ user }) => {
     if (!postData.message == "") {
       setDiscussionText("")
       try {
-        const { data } = await axios.post('http://localhost:5000/postDiscussion', postData)
+        const { data } = await axios.post('https://facebook-group-replica.herokuapp.com/postDiscussion', postData)
         setDiscussions(data)
       } catch (error) {
         console.log(error)

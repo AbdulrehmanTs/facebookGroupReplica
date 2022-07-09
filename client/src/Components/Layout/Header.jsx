@@ -9,7 +9,7 @@ const Header = ({ user }) => {
     const joinReq = async () => {
         setBtntext("Request sent..")
         try {
-            const { data } = await axios.post('http://localhost:5000/request', user)
+            const { data } = await axios.post('https://facebook-group-replica.herokuapp.com/request', user)
         } catch (error) {
             console.log(error)
         }

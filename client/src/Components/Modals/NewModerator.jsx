@@ -26,7 +26,7 @@ const NewModerator = () => {
   const addingModerator = async () => {
     if (!modeData.name == "" || !modeData.email == "") {
       try {
-        const { data } = await axios.post('http://localhost:5000/addModerator', modeData)
+        const { data } = await axios.post('https://facebook-group-replica.herokuapp.com/addModerator', modeData)
         closePopup()
       } catch (error) {
         console.log(error)

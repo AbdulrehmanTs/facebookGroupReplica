@@ -27,7 +27,7 @@ const Login = ({ user, setUser }) => {
     // })
     const logIn = async () => {
         try {
-            const { data } = await axios.post('http://localhost:5000/login', values)
+            const { data } = await axios.post('https://facebook-group-replica.herokuapp.com/login', values)
             console.log(data);
             setUserData(data)
             setUser(userData.user)

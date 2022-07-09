@@ -26,7 +26,7 @@ const Register = ({ user, setUser }) => {
     const [succesMessage, setSuccessMessage] = useState()
     const register = async () => {
         try {
-            const { data } = await axios.post('http://localhost:5000/register', values)
+            const { data } = await axios.post('https://facebook-group-replica.herokuapp.com/register', values)
             setUserData(data)
             setUser(userData.user)
             if (userData.message === 'User already exist.') {

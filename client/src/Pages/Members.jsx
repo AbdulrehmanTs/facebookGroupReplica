@@ -13,7 +13,7 @@ const Members = ({ user }) => {
 
     const fetchUsers = async () => {
         try {
-            const { data } = await axios.get('http://localhost:5000/users')
+            const { data } = await axios.get('https://facebook-group-replica.herokuapp.com/users')
             setusers(data)
         } catch (error) {
             console.log(error)
