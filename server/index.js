@@ -1,6 +1,6 @@
 import express from 'express'
 import cors from 'cors'
-import { users } from './data.js'
+import { users, discussions, requests } from './data.js'
 
 const app = express()
 const port = 5000
@@ -12,7 +12,9 @@ app.use(express.urlencoded({ extended: false }));
 
 
 
-let newUsers = []
+let newUsers = users
+let newRequests = requests
+let newDiscussions = discussions
 
 
 
@@ -25,32 +27,65 @@ app.get("/", (req, res) => {
 app.post("/register", (req, res) => {
     const { firstName, lastName, email, password } = req.body
     let user = {}
-    let errorMessage = ''
+    let message = ''
     users.map((item) => {
         if (item.email == email) {
-            errorMessage = "User already exist."
+            message = "User already exist."
         } else {
             newUsers.push(req.body)
+            message = "Sign in Successfull"
         }
     })
-    res.send([req.body, errorMessage])
+    res.send({ user: req.body, message })
 })
 
 
 app.post('/login', (req, res) => {
-    const { email } = req.body.values
-    let errorMessage = {}
-    let user = {}
-    users.find((item) => {
-        if (item.email = email) {
-            user = item
-        } else {
-            errorMessage = "Not Found."
-        }
-    })
-    console.log(email)
-    res.send([user, errorMessage])
+    const { email } = req.body
+    let message = ''
+    let user = users.find((item) => item.email === email)
+    if (!user) {
+        message = "Not Found."
+    } else {
+        message = "Login successfull!"
+    }
+    res.send({ user, message })
 })
+
+
+app.get("/users", (req, res) => {
+    res.send(users)
+})
+
+
+app.post("/postDiscussion", (req, res) => {
+    newDiscussions.unshift(req.body)
+    res.send(newDiscussions)
+})
+
+
+app.get("/discussions", (req, res) => {
+    res.send(newDiscussions)
+})
+
+
+app.post("/addModerator", (req, res) => {
+    let firstName = req.body.name
+    let { email, isModerator, isAdmin } = req.body
+    newUsers.push({ firstName, email, isModerator, isAdmin })
+    res.send(newUsers)
+})
+
+app.get("/allrequests", (req, res) => {
+    res.send(newRequests)
+})
+
+app.post("/request", (req, res) => {
+    newRequests.push(req.body)
+    res.send(newRequests)
+})
+
+
 
 
 

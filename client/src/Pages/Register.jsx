@@ -2,8 +2,12 @@ import { TextField } from '@mui/material'
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
-const Register = () => {
+const Register = ({ user, setUser }) => {
+    const navigate = useNavigate()
+
+
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [email, setEmail] = useState('')
@@ -18,11 +22,20 @@ const Register = () => {
         password
     }
 
+    const [errorMessage, setErrorMessage] = useState()
+    const [succesMessage, setSuccessMessage] = useState()
     const register = async () => {
         try {
             const { data } = await axios.post('http://localhost:5000/register', values)
             setUserData(data)
-            console.log(data);
+            setUser(userData.user)
+            if (userData.message === 'User already exist.') {
+                setErrorMessage(userData.message)
+            } else {
+                setSuccessMessage(userData.message)
+                navigate('/about')
+            }
+            console.log(userData.message);
         } catch (error) {
             console.log(error);
         }
@@ -32,6 +45,13 @@ const Register = () => {
             <div className='flex bg-blue-300 h-[60px] items-center justify-center'>
                 <h1 className='text-[22px] text-white uppercase'>Facebook Group Replica</h1>
             </div>
+            {
+                errorMessage && (
+                    <div className='flex items-center justify-center'>
+                        <h4 className='text-[22px]'>{errorMessage}</h4>
+                    </div>
+                )
+            }
             <div style={{ minHeight: height + "px" }} className='bg-[#fafafa] flex justify-center items-center'>
                 <div className='bg-white w-[450px] p-[32px] '>
                     <h1 className='text-center uppercase text-[20px]'>Sign Up</h1>

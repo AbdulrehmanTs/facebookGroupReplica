@@ -1,23 +1,45 @@
 import { TextField } from '@mui/material'
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
+import { useEffect } from 'react'
 
-const Login = () => {
+const Login = ({ user, setUser }) => {
+    const navigate = useNavigate()
+    let height = window.innerHeight - 60
+
+
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    let height = window.innerHeight - 60
+    const [errorMessage, setErrorMessage] = useState()
+    const [succesMessage, setSuccessMessage] = useState()
 
     const [userData, setUserData] = useState({})
     const values = {
         email,
         password
     }
-    const loggingIn = async () => {
+
+    // useEffect(() => {
+    //     if (user) {
+    //         navigate('/about')
+    //     }
+    // })
+    const logIn = async () => {
         try {
             const { data } = await axios.post('http://localhost:5000/login', values)
-            setUserData(data)
             console.log(data);
+            setUserData(data)
+            setUser(userData.user)
+            if (!userData.user) {
+                setErrorMessage(userData?.message)
+                console.log("if", userData)
+
+            } else {
+                setSuccessMessage(userData.message)
+                navigate('/about')
+                console.log("else", userData)
+            }
         } catch (error) {
             console.log(error);
         }
@@ -34,7 +56,7 @@ const Login = () => {
                         <TextField value={email} onChange={(e) => setEmail(e.target.value)} id="email" fullWidth type='email' label="Email" variant="outlined" />
                         <TextField value={password} onChange={(e) => setPassword(e.target.value)} id="password" type='password' fullWidth label="Password" variant="outlined" />
                     </div>
-                    <button onClick={() => loggingIn()} className='bg-blue-300 mx-auto block hover:bg-blue-400 transition-all duration-300 text-white mt-4 w-[120px] h-[45px] rounded-[24px]'>Login</button>
+                    <button onClick={() => logIn()} className='bg-blue-300 mx-auto block hover:bg-blue-400 transition-all duration-300 text-white mt-4 w-[120px] h-[45px] rounded-[24px]'>Login</button>
                     <span className='block text-center mt-5 text-14 font-light'>
                         New Here? <Link to='/register' className='text-blue-300'>Sign up</Link> Now
                     </span>

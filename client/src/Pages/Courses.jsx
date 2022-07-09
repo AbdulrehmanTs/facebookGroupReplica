@@ -1,9 +1,9 @@
 import React from 'react'
 import Layout from '../Components/Layout'
 
-const Courses = () => {
+const Courses = ({ user }) => {
   return (
-    <Layout>
+    <Layout user={user}>
 
     </Layout>
   )

@@ -1,11 +1,14 @@
 import React from 'react'
 import Header from './Header'
+import ModeratorHeader from './ModeratorHeader'
+import SpecialHeader from './SpecialHeader'
 
-const Layout = ({children}) => {
+const Layout = ({ children, user }) => {
   return (
     <>
-    <Header/>
-    {children}
+      <SpecialHeader user={user} />
+      <Header />
+      {children}
     </>
   )
 }
